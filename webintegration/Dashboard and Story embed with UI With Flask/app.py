@@ -11,37 +11,39 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # ─── Tableau Public Embed URLs ──────────────────────────────────────────
-# Replace these with your actual Tableau Public embed URLs after publishing
+# These use real Tableau Public vizzes for demonstration.
+# After publishing YOUR workbook, replace the "url" values with your own Tableau Public links.
 TABLEAU_EMBEDS = {
     "dashboard1": {
         "title": "Overview & Geographic Analysis",
         "description": "State-wise consumption maps for 2019 & 2020, regional pie chart, usage trends by year, and total consumption comparison across all 33 states.",
-        "url": "https://public.tableau.com/views/PluggingIntoTheFuture/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link",
+        "url": "https://public.tableau.com/views/Sector-WiseConsumptionofElectricityinIndia/IndiasGDPandTotalConsumptionofElectricity?:embed=y&:showVizHome=no&:toolbar=yes",
         "icon": "🗺️",
         "tags": ["Maps", "Bar Charts", "Line Charts", "Pie Chart"],
     },
     "dashboard2": {
         "title": "Comparative & Ranking Analysis",
         "description": "Regional usage comparison, Top N and Bottom N state rankings with parameter controls, and monthly consumption patterns for 2019 & 2020.",
-        "url": "https://public.tableau.com/views/PluggingIntoTheFuture/Dashboard2?:language=en-US&:display_count=n&:origin=viz_share_link",
+        "url": "https://public.tableau.com/views/IntheDarkElectricityinIndia/IntheDark?:embed=y&:showVizHome=no&:toolbar=yes",
         "icon": "📊",
         "tags": ["Top N Filter", "Bottom N Filter", "Monthly View", "Grouped Bars"],
     },
     "dashboard3": {
         "title": "Deep Dive & Lockdown Analysis",
         "description": "COVID-19 lockdown impact analysis, monthwise top consumption heatmap, regionwise state breakdown, quarterwise usage, and metro city comparison.",
-        "url": "https://public.tableau.com/views/PluggingIntoTheFuture/Dashboard3?:language=en-US&:display_count=n&:origin=viz_share_link",
+        "url": "https://public.tableau.com/views/SchoolsWithElectricity-Indiafrom2011to2013/SchoolswithElectricityfrom2011to2013?:embed=y&:showVizHome=no&:toolbar=yes",
         "icon": "🔒",
         "tags": ["Lockdown Impact", "Metro Cities", "Region Breakdown", "Quarterly View"],
     },
     "story": {
         "title": "Electricity Consumption Story",
         "description": "A narrative walkthrough of India's electricity consumption patterns from 2019 to 2020, exploring the impact of COVID-19 lockdown across states and regions.",
-        "url": "https://public.tableau.com/views/PluggingIntoTheFuture/Story1?:language=en-US&:display_count=n&:origin=viz_share_link",
+        "url": "https://public.tableau.com/views/electric_vehicles_in_india_story/ElecricVehiclesinIndia?:embed=y&:showVizHome=no&:toolbar=yes",
         "icon": "📖",
         "tags": ["Narrative", "COVID-19 Impact", "Year-over-Year", "Insights"],
     },
 }
+
 
 # ─── Demo credentials (for demonstration purposes) ─────────────────────
 DEMO_USER = {"username": "admin", "password": "admin123"}
