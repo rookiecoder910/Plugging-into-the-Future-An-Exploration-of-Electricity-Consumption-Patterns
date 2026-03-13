@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Dashboards{% endblock %}
+
+{% block content %}
+<section class="section page-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="page-greeting">Welcome, <span class="gradient-text">{{ session.get('username', 'User') }}</span></div>
+            <h2>Explore <span class="gradient-text">Dashboards & Story</span></h2>
+            <p class="section-desc">Select a dashboard or story below to view the interactive Tableau visualization embedded directly in the browser.</p>
+        </div>
+
+        <div class="viz-grid">
+            {% for viz_id, viz in embeds.items() %}
+            <a href="{{ url_for('view_viz', viz_id=viz_id) }}" class="viz-card" id="viz-{{ viz_id }}">
+                <div class="viz-card-header">
+                    <div class="viz-icon">{{ viz.icon }}</div>
+                    <div class="viz-type-badge {% if viz_id == 'story' %}badge-story{% else %}badge-dash{% endif %}">
+                        {{ 'Story' if viz_id == 'story' else 'Dashboard' }}
+                    </div>
+                </div>
+                <h3>{{ viz.title }}</h3>
+                <p>{{ viz.description }}</p>
+                <div class="viz-tags">
+                    {% for tag in viz.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                <div class="viz-cta">
+                    <span>View Interactive Viz</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="embed-info-box">
+            <div class="info-icon">ℹ️</div>
+            <div>
+                <strong>How embedding works:</strong> Each dashboard is loaded from Tableau Public via an <code>&lt;iframe&gt;</code> element in the Flask template. The iframe URL points to your published Tableau Public visualization, providing full interactivity including filters, tooltips, and parameter controls — all within your custom Flask UI.
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

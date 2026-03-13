@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">⚡ Flask + Tableau Integration</div>
+        <h1>Plugging into the <span class="gradient-text">Future</span></h1>
+        <p class="hero-subtitle">An interactive exploration of India's electricity consumption patterns across 33 states and 5 regions, powered by Tableau dashboards embedded in a Flask web application.</p>
+        <div class="hero-stats">
+            <div class="stat-card"><span class="stat-number">3</span><span class="stat-label">Dashboards</span></div>
+            <div class="stat-card"><span class="stat-number">1</span><span class="stat-label">Story</span></div>
+            <div class="stat-card"><span class="stat-number">33</span><span class="stat-label">States</span></div>
+            <div class="stat-card"><span class="stat-number">2</span><span class="stat-label">Years</span></div>
+        </div>
+        {% if session.get('logged_in') %}
+            <a href="{{ url_for('dashboards') }}" class="hero-cta">View Dashboards →</a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="hero-cta">Sign In to Explore →</a>
+        {% endif %}
+    </div>
+</header>
+
+<!-- Features Section -->
+<section class="section" id="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>What's <span class="gradient-text">Inside</span></h2>
+            <p class="section-desc">Explore interactive Tableau visualizations embedded seamlessly within this Flask application.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Geographic Analysis</h3>
+                <p>Interactive state-wise consumption maps comparing 2019 and 2020 electricity usage patterns across India.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Ranking & Comparison</h3>
+                <p>Top N and Bottom N filters to dynamically explore the highest and lowest consuming states with parameter controls.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Lockdown Impact</h3>
+                <p>Deep dive into COVID-19's impact on electricity consumption — before, during, and after lockdown periods.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Data Story</h3>
+                <p>A guided narrative walking through key insights, from regional patterns to the dramatic 86.8% consumption drop.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure Access</h3>
+                <p>Flask-powered authentication ensures controlled access to dashboards with session management and flash notifications.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Responsive Design</h3>
+                <p>Premium dark-themed UI that adapts beautifully to desktop, tablet, and mobile viewports.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="section-header">
+            <h2>How It <span class="gradient-text">Works</span></h2>
+            <p class="section-desc">Tableau dashboards embedded via iframes in Flask templates for a seamless experience.</p>
+        </div>
+        <div class="arch-flow">
+            <div class="arch-step">
+                <div class="arch-num">1</div>
+                <h4>Tableau Desktop</h4>
+                <p>Dashboards & stories created in Tableau Desktop with filters, parameters, and interactive charts.</p>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">
+                <div class="arch-num">2</div>
+                <h4>Tableau Public</h4>
+                <p>Published to Tableau Public cloud for free hosting with shareable embed URLs.</p>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">
+                <div class="arch-num">3</div>
+                <h4>Flask + Iframe</h4>
+                <p>Flask serves HTML templates with embedded iframes pointing to Tableau Public viz URLs.</p>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-step">
+                <div class="arch-num">4</div>
+                <h4>Interactive UI</h4>
+                <p>Users authenticate, browse dashboards, and interact with embedded Tableau visualizations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
