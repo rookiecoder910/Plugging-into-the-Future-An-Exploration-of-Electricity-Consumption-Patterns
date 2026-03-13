@@ -7,6 +7,17 @@
 
 ---
 
+## Team Members
+
+| Name | Role |
+|---|---|
+| Manas Kumar | Team Member |
+| Dhruv Dhawan | Team Member |
+| Ritik Raj | Team Member |
+| Kartik Singh | Team Member |
+
+---
+
 ## Table of Contents
 
 1. [Abstract](#1-abstract)
