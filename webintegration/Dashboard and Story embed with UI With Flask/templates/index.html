@@ -2,98 +2,105 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<header class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">⚡ Flask + Tableau Dashboard Showcase</div>
-        <h1>Plugging into the <span class="gradient-text">Future</span></h1>
-        <p class="hero-subtitle">An interactive exploration of India's electricity consumption patterns across 33 states and 5 regions, featuring Tableau dashboards showcased in a premium Flask web application.</p>
-        <div class="hero-stats">
-            <div class="stat-card"><span class="stat-number">3</span><span class="stat-label">Dashboards</span></div>
-            <div class="stat-card"><span class="stat-number">1</span><span class="stat-label">Story</span></div>
-            <div class="stat-card"><span class="stat-number">33</span><span class="stat-label">States</span></div>
-            <div class="stat-card"><span class="stat-number">2</span><span class="stat-label">Years</span></div>
+<!-- Hero — left-aligned text with a dashboard preview on the right -->
+<header class="hero-landing">
+    <div class="container">
+        <div class="hero-split">
+            <div class="hero-text">
+                <h1>Plugging into the Future</h1>
+                <p>Exploring how India's 33 states consumed electricity across 2019–2020, and what changed when lockdown hit.</p>
+                <div class="hero-meta">
+                    <span>3 Dashboards</span>
+                    <span class="meta-dot">·</span>
+                    <span>1 Story</span>
+                    <span class="meta-dot">·</span>
+                    <span>33 States</span>
+                    <span class="meta-dot">·</span>
+                    <span>2 Years of Data</span>
+                </div>
+                {% if session.get('logged_in') %}
+                    <a href="{{ url_for('dashboards') }}" class="hero-cta">View Dashboards →</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="hero-cta">Sign In to Explore →</a>
+                {% endif %}
+            </div>
+            <div class="hero-preview">
+                <img src="{{ url_for('static', filename='images/dash1.png') }}" alt="Dashboard preview — Overview & Geographic Analysis" />
+            </div>
         </div>
-        {% if session.get('logged_in') %}
-            <a href="{{ url_for('dashboards') }}" class="hero-cta">View Dashboards →</a>
-        {% else %}
-            <a href="{{ url_for('login') }}" class="hero-cta">Sign In to Explore →</a>
-        {% endif %}
     </div>
 </header>
 
-<!-- Features Section -->
-<section class="section" id="features">
+<!-- Dashboard Previews — show the actual work, not generic feature cards -->
+<section class="section" id="dashboards-preview">
     <div class="container">
-        <div class="section-header">
-            <h2>What's <span class="gradient-text">Inside</span></h2>
-            <p class="section-desc">Explore Tableau dashboard visualizations showcased within this Flask application.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🗺️</div>
-                <h3>Geographic Analysis</h3>
-                <p>Interactive state-wise consumption maps comparing 2019 and 2020 electricity usage patterns across India.</p>
+        <h2>What's in this project</h2>
+        <p class="section-subtitle">Three Tableau dashboards and a data story, each looking at electricity consumption from a different angle.</p>
+
+        <div class="preview-grid">
+            <div class="preview-card">
+                <div class="preview-img">
+                    <img src="{{ url_for('static', filename='images/dash1.png') }}" alt="Overview & Geographic Analysis" loading="lazy" />
+                </div>
+                <div class="preview-info">
+                    <h3>Overview & Geographic Analysis</h3>
+                    <p>State-wise consumption maps, regional pie charts, and year-over-year usage trends for all 33 states.</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Ranking & Comparison</h3>
-                <p>Top N and Bottom N filters to dynamically explore the highest and lowest consuming states with parameter controls.</p>
+            <div class="preview-card">
+                <div class="preview-img">
+                    <img src="{{ url_for('static', filename='images/dash2.png') }}" alt="Comparative & Ranking Analysis" loading="lazy" />
+                </div>
+                <div class="preview-info">
+                    <h3>Comparative & Ranking</h3>
+                    <p>Top N / Bottom N filters, regional comparisons, and monthly consumption patterns side by side.</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Lockdown Impact</h3>
-                <p>Deep dive into COVID-19's impact on electricity consumption — before, during, and after lockdown periods.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📖</div>
-                <h3>Data Story</h3>
-                <p>A guided video narrative walking through key insights, from regional patterns to the dramatic impact of COVID-19 lockdown.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔐</div>
-                <h3>Secure Access</h3>
-                <p>Flask-powered authentication ensures controlled access to dashboards with session management and flash notifications.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3>Responsive Design</h3>
-                <p>Clean, professional UI that adapts beautifully to desktop, tablet, and mobile viewports.</p>
+            <div class="preview-card">
+                <div class="preview-img">
+                    <img src="{{ url_for('static', filename='images/dash3.png') }}" alt="Deep Dive & Lockdown Analysis" loading="lazy" />
+                </div>
+                <div class="preview-info">
+                    <h3>Lockdown Impact Analysis</h3>
+                    <p>How COVID-19 changed electricity usage — metro city comparisons, quarterly trends, and regional breakdowns.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- How It Works -->
-<section class="section section-dark">
+<!-- About the project — simple, conversational, not a "How It Works" flow -->
+<section class="section section-about">
     <div class="container">
-        <div class="section-header">
-            <h2>How It <span class="gradient-text">Works</span></h2>
-            <p class="section-desc">Tableau dashboards showcased via Flask with zoom and fullscreen capabilities.</p>
-        </div>
-        <div class="arch-flow">
-            <div class="arch-step">
-                <div class="arch-num">1</div>
-                <h4>Tableau Desktop</h4>
-                <p>Dashboards & stories created in Tableau Desktop with filters, parameters, and interactive charts.</p>
+        <div class="about-split">
+            <div class="about-text">
+                <h2>About this project</h2>
+                <p>This project was built as part of a Tableau data visualization course. The dashboards were designed in Tableau Desktop using real electricity consumption data from India's Central Electricity Authority.</p>
+                <p>The web application uses Flask to serve the dashboard images and story video with authentication, a gallery view, and zoom/fullscreen capabilities.</p>
+                <div class="tech-tags">
+                    <span>Tableau</span>
+                    <span>Flask</span>
+                    <span>Python</span>
+                    <span>HTML/CSS</span>
+                </div>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-step">
-                <div class="arch-num">2</div>
-                <h4>Dashboard Export</h4>
-                <p>Dashboards exported as high-resolution images for web display.</p>
-            </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-step">
-                <div class="arch-num">3</div>
-                <h4>Flask Server</h4>
-                <p>Flask serves the dashboard images via static files with a premium gallery UI.</p>
-            </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-step">
-                <div class="arch-num">4</div>
-                <h4>View & Explore</h4>
-                <p>Users authenticate, browse dashboard gallery, and explore each visualization with zoom controls.</p>
+            <div class="about-highlights">
+                <div class="highlight-item">
+                    <strong>Data Source</strong>
+                    <span>Central Electricity Authority, India</span>
+                </div>
+                <div class="highlight-item">
+                    <strong>Time Period</strong>
+                    <span>January 2019 – December 2020</span>
+                </div>
+                <div class="highlight-item">
+                    <strong>Coverage</strong>
+                    <span>33 States and UTs, 5 Regions</span>
+                </div>
+                <div class="highlight-item">
+                    <strong>Key Insight</strong>
+                    <span>Lockdown caused a 25% drop in consumption during April–May 2020</span>
+                </div>
             </div>
         </div>
     </div>
