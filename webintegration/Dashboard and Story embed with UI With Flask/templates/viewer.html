@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ viz.title }}{% endblock %}
+{% block title %}{{ dash.title }}{% endblock %}
 
 {% block content %}
 <section class="viewer-page">
@@ -11,56 +11,164 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     Back to Gallery
                 </a>
-                <h1>{{ viz.icon }} {{ viz.title }}</h1>
-                <p>{{ viz.description }}</p>
+                <h1>{{ dash.icon }} {{ dash.title }}</h1>
+                <p>{{ dash.description }}</p>
             </div>
-            <!-- Viz Tabs -->
+            <!-- Tabs -->
             <div class="viewer-tabs">
-                {% for vid, v in all_vizzes.items() %}
-                <a href="{{ url_for('view_viz', viz_id=vid) }}" class="vtab {% if vid == viz_id %}vtab-active{% endif %}">
-                    {{ v.icon }} {{ v.title | truncate(20) }}
+                {% for did, d in all_dashes.items() %}
+                <a href="{{ url_for('view_dash', dash_id=did) }}" class="vtab {% if did == dash_id %}vtab-active{% endif %}">
+                    {{ d.icon }} {{ d.title | truncate(20) }}
                 </a>
                 {% endfor %}
             </div>
         </div>
     </div>
 
-    <!-- Tableau Iframe Embed -->
-    <div class="iframe-container">
-        <div class="iframe-loading" id="iframe-loader">
-            <div class="spinner"></div>
-            <p>Loading Tableau Visualization...</p>
+    {% if dash.type == 'video' %}
+    <!-- ═══ Video Player (Story) ═══ -->
+    <div class="video-player-container">
+        <div class="container">
+            <div class="video-player-wrapper">
+                <video
+                    id="story-video"
+                    controls
+                    preload="metadata"
+                    class="story-video"
+                    poster=""
+                >
+                    <source src="{{ url_for('static', filename=dash.media) }}" type="video/x-matroska">
+                    <source src="{{ url_for('static', filename=dash.media) }}" type="video/webm">
+                    Your browser may not support MKV playback.
+                </video>
+                <!-- Fullscreen toggle -->
+                <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle fullscreen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Browser compatibility notice -->
+            <div class="video-compat-notice" id="video-compat-notice" style="display:none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>MKV format may not play in all browsers. If the video doesn't play, try using Chrome or Edge, or
+                <a href="{{ url_for('static', filename=dash.media) }}" download class="download-link">download the video</a> to play locally.</span>
+            </div>
         </div>
-        <iframe
-            id="tableau-iframe"
-            src="{{ viz.url }}"
-            width="100%"
-            height="100%"
-            frameborder="0"
-            allowfullscreen
-            title="{{ viz.title }}"
-            onload="document.getElementById('iframe-loader').style.display='none';"
-        ></iframe>
     </div>
 
-    <!-- Embed Code Section -->
-    <div class="container embed-code-section">
-        <details class="embed-details">
-            <summary>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                View Embed Code
-            </summary>
-            <div class="embed-code-content">
-                <p>Use this iframe code to embed this visualization in any webpage:</p>
-                <pre class="code-block"><code>&lt;iframe
-  src="{{ viz.url }}"
-  width="100%"
-  height="800"
-  frameborder="0"
-  allowfullscreen
-&gt;&lt;/iframe&gt;</code></pre>
+    {% else %}
+    <!-- ═══ Dashboard Image Display ═══ -->
+    <div class="dashboard-image-container">
+        <div class="container">
+            <div class="dashboard-image-wrapper">
+                <img
+                    src="{{ url_for('static', filename=dash.media) }}"
+                    alt="{{ dash.title }}"
+                    class="dashboard-image"
+                    id="dashboard-image"
+                    loading="eager"
+                />
+                <!-- Fullscreen toggle -->
+                <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle fullscreen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    </svg>
+                </button>
+                <!-- Zoom controls -->
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoom-out-btn" title="Zoom out">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <span class="zoom-level" id="zoom-level">100%</span>
+                    <button class="zoom-btn" id="zoom-in-btn" title="Zoom in">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <button class="zoom-btn" id="zoom-reset-btn" title="Reset zoom">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                    </button>
+                </div>
             </div>
-        </details>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tags Section -->
+    <div class="container viewer-tags-section">
+        <div class="viewer-tags-inner">
+            <span class="tags-label">{{ 'Story Points:' if dash.type == 'video' else 'Visualizations:' }}</span>
+            <div class="viz-tags">
+                {% for tag in dash.tags %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    {% if dash.type == 'video' %}
+    // ─── Video Fullscreen ───────────────────────────────────────
+    const wrapper = document.querySelector('.video-player-wrapper');
+    const fsBtn = document.getElementById('fullscreen-btn');
+    const video = document.getElementById('story-video');
+    const notice = document.getElementById('video-compat-notice');
+
+    fsBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            wrapper.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    // Show compatibility notice if video fails to load
+    video.addEventListener('error', () => {
+        notice.style.display = 'flex';
+    });
+    // Also show after a timeout if video hasn't loaded
+    setTimeout(() => {
+        if (video.readyState === 0) {
+            notice.style.display = 'flex';
+        }
+    }, 3000);
+
+    {% else %}
+    // ─── Image Fullscreen Toggle ────────────────────────────────
+    const wrapper = document.querySelector('.dashboard-image-wrapper');
+    const fsBtn = document.getElementById('fullscreen-btn');
+    fsBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            wrapper.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    // ─── Zoom Controls ──────────────────────────────────────────
+    const img = document.getElementById('dashboard-image');
+    const zoomDisplay = document.getElementById('zoom-level');
+    let zoomScale = 1;
+    const ZOOM_STEP = 0.2;
+    const ZOOM_MIN = 0.5;
+    const ZOOM_MAX = 3;
+
+    function updateZoom() {
+        img.style.transform = `scale(${zoomScale})`;
+        zoomDisplay.textContent = `${Math.round(zoomScale * 100)}%`;
+    }
+
+    document.getElementById('zoom-in-btn').addEventListener('click', () => {
+        if (zoomScale < ZOOM_MAX) { zoomScale = Math.min(ZOOM_MAX, zoomScale + ZOOM_STEP); updateZoom(); }
+    });
+    document.getElementById('zoom-out-btn').addEventListener('click', () => {
+        if (zoomScale > ZOOM_MIN) { zoomScale = Math.max(ZOOM_MIN, zoomScale - ZOOM_STEP); updateZoom(); }
+    });
+    document.getElementById('zoom-reset-btn').addEventListener('click', () => {
+        zoomScale = 1; updateZoom();
+    });
+    {% endif %}
+</script>
 {% endblock %}
